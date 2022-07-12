@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row">
+    <div class="col-5 mx-auto">
+      <h3 class="bg-primary text-white p-3">
+        {{getName()}}'s todo list
+      </h3>
+
+      <div class="input-group mb-3">
+        <input [(ngModel)]="inputText" type="text" class="form-control" (keyup.enter)="addItem();">
+        <button [class]="getBtnClasses()" class="btn" (click)="addItem();">Add</button>
+      </div>
+
+      <div class="form-check mb-3">
+        <input type="checkbox" [(ngModel)]="displayAll" class="form-check-input" name="" id="displayAll">
+        <label for="displayAll" class="form-check-label">Show All</label>
+      </div>
+
+      <div class="text-center m-1">
+        <span class="badge rounded-pill text-bg-success m-1">Completed: {{ completedCount() }}</span>
+        <span class="badge rounded-pill text-bg-danger m-1">Not Completed: {{ notCompletedCount() }}</span>
+      </div>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="getItems().length == 0">
+            <td colspan="3" class="text-center bg-warning text-white">All is done!</td>
+          </tr>
+          <tr *ngFor="let item of getItems(); let i = index;" [class]="{ 'bg-success' : item.action, 'bg-danger': !item.action }">
+            <td>{{i+1}}</td>
+            <td>{{item.description}}</td>
+            <td>
+              <span *ngIf="item.action">✅</span>
+              <span *ngIf="!item.action">⛔</span>
+            </td>
+            <td>
+              <input type="checkbox" (change)="onActionChanged(item)" [(ngModel)]="item.action" class="form-check-input" name="" id="">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
